@@ -22,8 +22,8 @@ levelplot(sst ~ lon * lat, data = sasap.raw.np.df,
           ylab = "Latitude", xlab = "Longitude")
 
 sst_write_csv(data = sasap.raw.np.df,
-              file = "./data/export/sasap-ersstv4-2017-02-19.csv",
-              date = "2017-02-19",
+              file = "./data/export/sasap-ersstv4-2017-03-29.csv",
+              date = "2017-03-29",
               contact = "Michael Malick <malickmj@gmail.com>",
               data.type = "SST values",
               years = "1950-2016",

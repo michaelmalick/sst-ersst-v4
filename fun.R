@@ -114,6 +114,7 @@ sst_dataframe <- function(data) {
         row.names(sst.long) <- NULL
         sst.long$year  <- i.year
         sst.long$month <- i.month
+        sst.long$id    <- 1:length(sst.long$year)
 
         sst.list[[i]] <- sst.long
     }
@@ -138,6 +139,8 @@ if(FALSE) {
     anom.df <- sst_dataframe(anom)
     head(anom.df)
     tail(anom.df)
+
+    id <- split(anom.df, list(anom.df$lon, anom.df$lat))
 
     levelplot(sst ~ lon * lat, data = anom.df,
               subset = month == 1 & year == 1950,
