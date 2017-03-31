@@ -298,7 +298,7 @@ sst_map <- function(data, plot.dir, ...) {
 
 
 ## sst_anomaly() -------------------------------------------
-sst_anomaly <- function(data, ref.years, read.dir) {
+sst_anomaly <- function(data, ref.years) {
 
     ## Compute monthly grid cell specific SST anomalies
     ##
@@ -310,21 +310,34 @@ sst_anomaly <- function(data, ref.years, read.dir) {
     ##
     ## data = list of SST data output from sst_load()
     ## ref.years = years over which to calculate the long-term average
-    ## read.dir = directory where the raw sst is stored in netcdf format
+    ##             ref.years must be contained in `data`
 
+    if(sum(ref.years %in% data$year) != length(ref.years))
+        stop("ref.years not contained in input data")
 
-    ## 1. load data for reference years
-    sst.ref <- sst_load(years  = ref.years,
-                        months = 1:12,
-                        read.dir = read.dir)
+    u.months <- unique(data$month)
+    n.months <- length(u.months)
+    n.years  <- length(unique(data$year))
+
+    if((n.years * n.months) != dim(data$sst)[3])
+        stop("Not equal number of months in all year")
+
+    ## 1. subset data for reference years
+    sst.ref <- sst_subset_time(data,
+                               years = ref.years,
+                               months = u.months)
 
     ## 2. create empty array to hold monthly long-term averages
-    ar.ref <- array(NA, dim = c(length(sst.ref$lon), length(sst.ref$lat), 12))
+    ar.ref <- array(NA, dim = c(length(sst.ref$lon),
+                                length(sst.ref$lat),
+                                n.months))
 
     ## 3. calculate monthly long-term means for each grid cell
-    for(i in 1:12)
-        ar.ref[ , , i] <- apply(sst.ref$sst[ , , which(sst.ref$month == i)],
-                                c(1, 2), mean, na.rm = TRUE)
+    for(i in u.months) {
+        ind <- which(u.months == i)
+        ar.ref[ , , ind] <- apply(sst.ref$sst[ , , which(sst.ref$month == i)],
+                                  c(1, 2), mean, na.rm = TRUE)
+    }
 
     ## 4. create empty array to hold monthly anomalies
     ar.out <- array(NA, dim = c(length(data$lon),
@@ -333,8 +346,8 @@ sst_anomaly <- function(data, ref.years, read.dir) {
 
     ## 5. calculate monthly anomalies for each grid cell
     for(i in seq_along(data$month)) {
-        i.month <- data$month[i]
-        ar.out[ , , i] <- data$sst[ , , i] - ar.ref[ , , i.month]
+        i.ref <- which(unique(data$month) == data$month[i])
+        ar.out[ , , i] <- data$sst[ , , i] - ar.ref[ , , i.ref]
     }
 
     ## 6. create list with anomalies, lat, lon, and time indices
@@ -350,13 +363,14 @@ sst_anomaly <- function(data, ref.years, read.dir) {
 if(FALSE) {
 
     test <- sst_load(1950:2016, 1:12, "./data/rawdata/")
-    anom <- sst_anomaly(test, ref.years = 1950:2016, "./data/rawdata/")
+    anom <- sst_anomaly(test, ref.years = 1950:2016)
 
     anom$lon
     anom$lat
     anom$year
     anom$month
     class(anom$sst)
+    dim(test$sst)
     dim(anom$sst)
     class(anom$sst[ , , 1])
     head(anom$sst[ , , 1])

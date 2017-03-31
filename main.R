@@ -36,8 +36,7 @@ sst_map(sst.raw,
 
 ## 5. Compute monthly anomalies ----------------------------
 sst.anom <- sst_anomaly(sst.raw,
-                        ref.years = 1950:2016,
-                        read.dir = "./data/rawdata/")
+                        ref.years = 1950:2016)
 min(sst.anom$sst, na.rm = TRUE)
 max(sst.anom$sst, na.rm = TRUE)
 
