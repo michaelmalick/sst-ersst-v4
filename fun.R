@@ -392,9 +392,17 @@ sst_load <- function(years, months, read.dir) {
     ## year, which can be indexed using the $year and $month vectors in the
     ## list.
     ##
-    ## years = numeric vector of years of sst to read
-    ## months = numeric vector of months to read
+    ## years = numeric vector of years of sst to read, e.g., 1950:2016
+    ##         should be a numeric sequence, ascending by 1
+    ## months = numeric vector of months to read, e.g., 1:12
+    ##          should be a numeric sequence, ascending by 1
     ## read.dir = directory where the raw sst is stored in netcdf format
+
+    if(length(years) != length(min(years):max(years)))
+        stop("years vector is not a sequence ascending by 1")
+
+    if(length(months) != length(min(months):max(months)))
+        stop("months vector is not a sequence ascending by 1")
 
     n         <- length(years) * length(months)
     vec.year  <- sort(rep(years, length(months)))
@@ -446,6 +454,9 @@ sst_load <- function(years, months, read.dir) {
 ## Testing
 if(FALSE) {
 
+    test <- sst_load(c(1951, 1953), 1:12, "./data/rawdata/")
+    test <- sst_load(1950:2016, c(4, 5, 8), "./data/rawdata/")
+
     test <- sst_load(1950:2016, 1:12, "./data/rawdata/")
     names(test)
     test$lon
@@ -484,8 +495,16 @@ sst_download <- function(years, months, save.dir) {
     ##   mm=two digit month
     ##
     ## years = numeric vector of years to download data for, e.g., 1950:2016
+    ##         should be a numeric sequence, ascending by 1
     ## months = numeric vector of months to download data, e.g., 1:12
+    ##          should be a numeric sequence, ascending by 1
     ## save.dir = directory to save sst data files in, e.g., "./data/"
+
+    if(length(years) != length(min(years):max(years)))
+        stop("years vector is not a sequence ascending by 1")
+
+    if(length(months) != length(min(months):max(months)))
+        stop("months vector is not a sequence ascending by 1")
 
     cnt <- 0
     for(i in years) {
