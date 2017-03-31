@@ -60,7 +60,7 @@ sst_write_csv <- function(data, file,
 if(FALSE) {
 
     test <- sst_load(1950:1951, 1:12, "./data/rawdata/")
-    anom <- sst_anomaly(test, ref.years = 1950:2016, "./data/rawdata/")
+    anom <- sst_anomaly(test, ref.years = 1950:2016)
     anom.df <- sst_dataframe(anom)
 
     sst_write_csv(data = anom.df,
@@ -133,7 +133,7 @@ sst_dataframe <- function(data) {
 if(FALSE) {
 
     test <- sst_load(1950:1951, 1:12, "./data/rawdata/")
-    anom <- sst_anomaly(test, ref.years = 1950:2016, "./data/rawdata/")
+    anom <- sst_anomaly(test, ref.years = 1950:1951)
     dim(anom$sst)
 
     anom.df <- sst_dataframe(anom)
@@ -153,7 +153,7 @@ if(FALSE) {
 
 
     test <- sst_load(1950:2016, 1:12, "./data/rawdata/")
-    anom <- sst_anomaly(test, ref.years = 1950:2016, "./data/rawdata/")
+    anom <- sst_anomaly(test, ref.years = 1950:2016)
     anom.nep <- sst_subset_space(anom,
                                  lat.min = 20,
                                  lat.max = 80,
