@@ -36,7 +36,7 @@ levelplot(sst ~ lon * lat, data = sasap.anom.np.df,
           ylab = "Latitude", xlab = "Longitude")
 
 sst_write_csv(data = sasap.raw.np.df,
-              file = "./data/export/sasap-ersstv4-raw-2017-03-31.csv",
+              file = "./data/export/sasap-ersstv4-raw-2017-08-18.csv",
               date = Sys.time(),
               contact = "Michael Malick <malickmj@gmail.com>",
               data.type = "SST values",
@@ -45,7 +45,7 @@ sst_write_csv(data = sasap.raw.np.df,
               spatial.extent = "20-80N and 130-260E")
 
 sst_write_csv(data = sasap.anom.np.df,
-              file = "./data/export/sasap-ersstv4-anom-2017-03-31.csv",
+              file = "./data/export/sasap-ersstv4-anom-2017-08-18.csv",
               date = Sys.time(),
               contact = "Michael Malick <malickmj@gmail.com>",
               data.type = "SST anomalies (reference years = 1950-2016)",
