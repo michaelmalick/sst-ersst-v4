@@ -10,7 +10,7 @@ sasap.raw <- sst_load(years    = 1950:2016,
 sasap.raw.np <- sst_subset_space(sasap.raw,
                                  lat.min = 36,
                                  lat.max = 80,
-                                 lon.min = 182,
+                                 lon.min = 170,
                                  lon.max = 250)
 
 sasap.anom.np <- sst_anomaly(sasap.raw.np,
@@ -42,20 +42,20 @@ levelplot(sst ~ lon * lat, data = sasap.anom.np.df,
           ylab = "Latitude", xlab = "Longitude")
 
 sst_write_csv(data = sasap.raw.np.df,
-              file = "./data/export/sasap-ersstv4-raw-2017-08-18.csv",
+              file = "./data/export/sasap-ersstv4-raw-2017-09-13.csv",
               date = Sys.time(),
               contact = "Michael Malick <malickmj@gmail.com>",
               data.type = "SST values",
               years = "1950-2016",
               months = "1-12",
-              spatial.extent = "36-80N and 182-250E")
+              spatial.extent = "36-80N and 170-250E")
 
 sst_write_csv(data = sasap.anom.np.df,
-              file = "./data/export/sasap-ersstv4-anom-2017-08-18.csv",
+              file = "./data/export/sasap-ersstv4-anom-2017-09-13.csv",
               date = Sys.time(),
               contact = "Michael Malick <malickmj@gmail.com>",
               data.type = "SST anomalies (reference years = 1950-2016)",
               years = "1950-2016",
               months = "1-12",
-              spatial.extent = "36-80N and 182-250E")
+              spatial.extent = "36-80N and 170-250E")
 
