@@ -520,6 +520,10 @@ sst_download <- function(years, months, save.dir) {
     if(length(months) != length(min(months):max(months)))
         stop("months vector is not a sequence ascending by 1")
 
+    if(!dir.exists(save.dir)) {
+        dir.create(save.dir, recursive = TRUE)
+    }
+
     cnt <- 0
     for(i in years) {
 
@@ -534,7 +538,7 @@ sst_download <- function(years, months, save.dir) {
 
             if(file.exists(fname) == FALSE) {
                 download.file(web, destfile = fname,
-                              method = "wget", mode = "wb")
+                              method = "auto", mode = "wb")
                 cnt <- cnt + 1
             }
         }
