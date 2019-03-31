@@ -1,3 +1,6 @@
+This project is deprecated, please use <https://github.com/michaelmalick/r-ersst>
+
+
 # ERSST.v4 SST Data Processing
 
 This project downloads, processes, and visualizes the NOAA ERSST.v4 SST data
